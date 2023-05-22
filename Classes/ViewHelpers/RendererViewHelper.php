@@ -12,6 +12,16 @@ class RendererViewHelper extends AbstractViewHelper
      */
     protected $escapeOutput = false;
 
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument(
+            'customElement',
+            'string',
+            'Define custom HTML element using declarative shadow DOM'
+        );
+    }
+
     /*
      * @param array $arguments
      * @param \Closure $renderChildrenClosure
@@ -20,6 +30,13 @@ class RendererViewHelper extends AbstractViewHelper
      */
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
+        if (isset($arguments['customElement'])) {
+            return sprintf(
+                '<%1$s><template shadowrootmode="open">%2$s</template></%1$s>',
+                (string) $arguments['customElement'],
+                $renderChildrenClosure()
+            );
+        }
         return $renderChildrenClosure();
     }
 }
