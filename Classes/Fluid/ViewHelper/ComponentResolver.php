@@ -130,7 +130,7 @@ class ComponentResolver extends ViewHelperResolver
         }
 
         $componentLoader = $this->getComponentLoader();
-        $namespaces = (array) $this->namespaces[$namespaceIdentifier];
+        $namespaces = (array) $this->getNamespaces()[$namespaceIdentifier];
 
         do {
             $name = rtrim((string) array_pop($namespaces), '\\') . '\\' . $className;
